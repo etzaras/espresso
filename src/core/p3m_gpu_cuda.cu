@@ -350,7 +350,7 @@ __global__ void assign_charge_kernel(const CUDA_particle_data * const pdata,
   nmp_y = wrap_index(nmp_y + threadIdx.y, par.mesh[1]);
   nmp_z = wrap_index(nmp_z + threadIdx.z, par.mesh[2]);
 
-  const int ind = par.mesh[1]*par.mesh[2]*nmp_x + par.mesh[1]*nmp_y + nmp_z;
+  const int ind = par.mesh[1]*par.mesh[2]*nmp_x + par.mesh[2]*nmp_y + nmp_z;
 
   if(shared) {
     if((threadIdx.y < 3) && (threadIdx.z == 0)) {
