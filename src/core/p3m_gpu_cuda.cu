@@ -641,11 +641,13 @@ __global__ void assign_forces_kernel(const CUDA_particle_data * const pdata,
      if(((reinit_if == 1) || (p3m_gpu_data_initialized == 0)) && (p3m_gpu_data.mesh_size > 0)) {
        dim3 grid(1,1,1);
        dim3 block(1,1,1);
-       block.x = 512 / mesh[0] + 1;
-       block.y = mesh[1];
-       block.z = 1;       
+       block.x = 8;
+       block.y = 8;
+       block.z = 8;       
        grid.x = mesh[0] / block.x + 1;
-       grid.z = mesh[2] / 2 + 1;
+       grid.y = mesh[1] / block.y + 1;
+       /* Z is the short direction */
+       grid.z = (mesh[2] / 2 + 1) / block.z + 1;
 
        P3M_GPU_TRACE(printf("mesh %d %d %d, grid (%d %d %d), block (%d %d %d)\n",
                             mesh[0], mesh[1], mesh[2],
